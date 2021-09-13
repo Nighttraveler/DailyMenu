@@ -1,0 +1,23 @@
+{
+  "form": {
+    "save": "Save",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "menu_form": {
+    "title": "Menu title",
+    "type": {
+      "title": "Menu type",
+      "dish": "Meal",
+      "main": "Main",
+      "side": "Side"
+    }
+  },
+  "configuration": {
+    "pick_language": {
+      "en": "English",
+      "es": "Spanish"
+    }
+  }
+}

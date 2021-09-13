@@ -1,0 +1,24 @@
+{
+  "form": {
+    "save": "Guardar",
+    "edit": "Editar",
+    "cancel": "Cancelar",
+    "delete": "Borrar",
+    "delete_confirmation": "Seguro que desea borrar el menu {{menu}}?"
+  },
+  "menu_form": {
+    "title": "Titulo del menu",
+    "type": {
+      "title": "Tipo de menu",
+      "dish": "Plato",
+      "main": "Principal",
+      "side": "Guarnicion"
+    }
+  },
+  "configuration": {
+    "pick_language": {
+      "en": "Ingles",
+      "es": "Español"
+    }
+  }
+}
