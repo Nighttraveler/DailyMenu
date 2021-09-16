@@ -15,10 +15,15 @@
       "side": "Guarnicion"
     }
   },
-  "configuration": {
-    "pick_language": {
-      "en": "Ingles",
-      "es": "Español"
-    }
+  "drawer": {
+    "settings": {
+      "title": "Configuracion",
+      "pick_language": {
+        "en": "Ingles",
+        "es": "Español"
+      }
+    },
+    "home": "Home",
+    "manage": "Administrar Menu"
   }
 }

@@ -14,10 +14,15 @@
       "side": "Side"
     }
   },
-  "configuration": {
-    "pick_language": {
-      "en": "English",
-      "es": "Spanish"
-    }
+  "drawer" : {
+    "settings" : {
+      "title": "Settings",
+      "pick_language": {
+        "en": "English",
+        "es": "Spanish"
+      }
+    },
+    "home": "Home",
+    "manage": "Manage Menu"
   }
 }

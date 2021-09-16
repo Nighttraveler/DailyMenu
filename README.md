@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## TODO
-- [ ] Setup react router in drawer
+- [X] Setup react router in drawer
 - [ ] SearchBox in MenuManager
 - [ ] Configuration menu for user preferences (language, etc)
 - [ ] The menu generation components and logic
