@@ -14,8 +14,8 @@
       "side": "Side"
     }
   },
-  "drawer" : {
-    "settings" : {
+  "drawer": {
+    "settings": {
       "title": "Settings",
       "pick_language": {
         "en": "English",
@@ -24,5 +24,20 @@
     },
     "home": "Home",
     "manage": "Manage Menu"
+  },
+  "home": {
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "meals": {
+      "lunch": "Lunch",
+      "dinner": "Dinner"
+    }
   }
 }

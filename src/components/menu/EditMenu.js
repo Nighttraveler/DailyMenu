@@ -1,42 +1,48 @@
-import { Button, Grid, IconButton, MenuItem } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import Modal from '@material-ui/core/Modal';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from "@material-ui/core/TextField";
-import EditIcon from '@material-ui/icons/Edit'
+import ModalUnstyled from "@mui/core/ModalUnstyled";
+import EditIcon from '@mui/icons-material/Edit'
+import { Box, Button, Grid, IconButton, MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MealTypesEnum } from "../../initData";
+import { MealTypesEnum } from '../../initData';
 
-function getModalStyle() {
-    const top = 50;
-    const left = 50;
 
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        position: 'absolute',
-        width: '50%',
-        minWidth: '80%',
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+const Backdrop = styled('div')`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
 
-    },
-}));
+const style = {
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    p: 2,
+    px: 4,
+    pb: 3,
+};
+
 
 export default function EditMenu({ menu, handleUpdate }) {
 
-    const classes = useStyles();
-
-    const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
     const [menuState, setMenuState] = useState(menu);
     const [t] = useTranslation('common');
@@ -50,7 +56,6 @@ export default function EditMenu({ menu, handleUpdate }) {
     }
 
     const handleOpen = () => {
-
         setOpen(true);
     };
 
@@ -65,13 +70,12 @@ export default function EditMenu({ menu, handleUpdate }) {
     }, [menuState, handleUpdate]);
 
     const body = (
-        <Container align='center' maxWidth={'xl'} style={modalStyle}
-                   className={classes.paper}>
+        <Box sx={style}>
             <form onSubmit={handleSubmit}>
 
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={8}>
-                        <TextField id="standard-basic"
+                        <TextField id='standard-basic'
                                    label={t('menu_form.title')}
                                    value={menuState.name}
                                    onChange={handleMenuNameChange}
@@ -81,7 +85,7 @@ export default function EditMenu({ menu, handleUpdate }) {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <TextField
-                            id="menu-type-selector"
+                            id='menu-type-selector'
                             select
                             label={t('menu_form.type.title')}
                             value={menuState.type}
@@ -96,25 +100,28 @@ export default function EditMenu({ menu, handleUpdate }) {
                         </TextField>
                     </Grid>
                     <Grid item style={{ padding: 20 }} xs={12}>
-                        <Button variant="contained" color="primary" type={"submit"}>{t('form.edit')}</Button>
+                        <Button variant='contained' color='primary' type={'submit'}>{t('form.edit')}</Button>
                     </Grid>
                 </Grid>
             </form>
-        </Container>
+        </Box>
     );
 
     return (
         <React.Fragment>
-            <IconButton onClick={handleOpen} edge="end" aria-label="delete">
+            <IconButton onClick={handleOpen} edge='end' aria-label='delete'>
                 <EditIcon/>
             </IconButton>
             ️
-            <Modal
+            <StyledModal
+                aria-labelledby="unstyled-modal-title"
+                aria-describedby="unstyled-modal-description"
                 open={open}
                 onClose={handleClose}
+                BackdropComponent={Backdrop}
             >
                 {body}
-            </Modal>
+            </StyledModal>
         </React.Fragment>
     );
 }

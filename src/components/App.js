@@ -1,67 +1,32 @@
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import HomeIcon from '@material-ui/icons/Home';
-import MenuIcon from '@material-ui/icons/Menu';
-import SettingsIcon from '@material-ui/icons/Settings';
-import StorageIcon from '@material-ui/icons/Storage';
+import HomeIcon from '@mui/icons-material/Home';
+import MenuIcon from '@mui/icons-material/Menu';
+import SettingsIcon from '@mui/icons-material/Settings';
+import StorageIcon from '@mui/icons-material/Storage';
+import { Box } from "@mui/material";
+import AppBar from '@mui/material/AppBar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useTranslation } from "react-i18next";
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import Home from "./Home";
-import MenuManager from "./menu/MenuManager";
-import Settings from "./Settings";
+import { useTranslation } from 'react-i18next';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import Home from './Home';
+import MenuManager from './menu/MenuManager';
+import Settings from './Settings';
 
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
-    },
-    appBar: {
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-        },
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
-    },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-}));
 
 function App(props) {
     const { window } = props;
-    const classes = useStyles();
-    const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [t] = useTranslation('common');
 
@@ -89,12 +54,13 @@ function App(props) {
 
     const drawer = (
         <div>
-            <div className={classes.toolbar}/>
+            <Toolbar/>
             <Divider/>
             <List>
                 {drawerMenu.map((item, index) => {
                     return (
-                        <ListItem onClick={handleDrawerToggle}  component={Link} to={item.path} button key={index}>
+                        <ListItem onClick={() => setMobileOpen(false)} component={Link} to={item.path} button
+                                  key={index}>
                             <ListItemIcon>
                                 {item.icon}
                             </ListItemIcon>
@@ -109,70 +75,71 @@ function App(props) {
 
     return (
         <Router>
-            <div className={classes.root}>
+            <Box sx={{ display: 'flex' }}>
                 <CssBaseline/>
-                <AppBar position="fixed" className={classes.appBar}>
+                <AppBar position='fixed'>
                     <Toolbar>
                         <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            edge="start"
+                            color='inherit'
+                            aria-label='open drawer'
+                            edge='start'
                             onClick={handleDrawerToggle}
-                            className={classes.menuButton}
+
                         >
                             <MenuIcon/>
                         </IconButton>
-                        <Typography variant="h6" noWrap>
+                        <Typography variant='h6' noWrap>
                             Daily Menu
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <nav className={classes.drawer} aria-label="mailbox folders">
-                    {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                    <Hidden smUp implementation="css">
-                        <Drawer
-                            container={container}
-                            variant="temporary"
-                            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                            open={mobileOpen}
-                            onClose={handleDrawerToggle}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden xsDown implementation="css">
-                        <Drawer
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            variant="permanent"
-                            open
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                </nav>
-                <main className={classes.content}>
-                    <div className={classes.toolbar}/>
+                <Box
+                    component="nav"
+                    sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                    aria-label="menu"
+                >
+
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                        sx={{
+                            display: { xs: 'block', sm: 'none' },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                    <Drawer
+                        variant="permanent"
+                        sx={{
+                            display: { xs: 'none', sm: 'block' },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        }}
+                        open
+                    >
+                        {drawer}
+                    </Drawer>
+                </Box>
+                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                    <Toolbar/>
                     <Switch>
-                        <Route exact path="/">
+                        <Route exact path='/'>
                             <Home/>
                         </Route>
-                        <Route path="/manage">
+                        <Route path='/manage'>
                             <MenuManager/>
                         </Route>
-                        <Route path="/settings">
+                        <Route path='/settings'>
                             <Settings/>
                         </Route>
                     </Switch>
-                </main>
-            </div>
+                </Box>
+            </Box>
         </Router>
     );
 }

@@ -25,5 +25,20 @@
     },
     "home": "Home",
     "manage": "Administrar Menu"
+  },
+  "home": {
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miercoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sabado",
+      "sunday": "Domingo"
+    },
+    "meals": {
+      "lunch": "Almuerzo",
+      "dinner": "Cena"
+    }
   }
 }

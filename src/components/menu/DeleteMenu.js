@@ -1,38 +1,44 @@
-import { Button, IconButton } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import Modal from "@material-ui/core/Modal";
-import { makeStyles } from "@material-ui/core/styles";
-import DeleteIcon from '@material-ui/icons/Delete'
-import React, { useCallback } from "react";
+import ModalUnstyled from "@mui/core/ModalUnstyled";
+import DeleteIcon from '@mui/icons-material/Delete'
+import { Box, Button, IconButton } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function getModalStyle() {
-    const top = 50;
-    const left = 50;
 
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        position: 'absolute',
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+const Backdrop = styled('div')`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
 
-    },
-}));
-
+const style = {
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    p: 2,
+    px: 4,
+    pb: 3,
+};
 export default function DeleteMenu({ menu, handleDelete }) {
 
-    const classes = useStyles();
-
-    const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
     const [t] = useTranslation('common');
 
@@ -51,28 +57,31 @@ export default function DeleteMenu({ menu, handleDelete }) {
     }, [menu, handleDelete]);
 
     const body = (
-        <Container align='center' maxWidth={'xl'}>
-            <form style={modalStyle} className={classes.paper}
-                  onSubmit={handleSubmit}>
+        <Box sx={style}>
+            <form
+                onSubmit={handleSubmit}>
                 <h4>{t('form.delete_confirmation', { menu: menu.name })}</h4>
-                <Button variant="contained" type="submit" size='large' color='secondary'>{t('form.delete')}</Button>
-                <Button variant="contained" type="submit" size='large' onClick={handleClose}>{t('form.cancel')}</Button>
+                <Button variant='contained' type='submit' size='large' color='secondary'>{t('form.delete')}</Button>
+                <Button variant='contained' type='submit' size='large' onClick={handleClose}>{t('form.cancel')}</Button>
             </form>
-        </Container>
+        </Box>
     );
 
     return (
         <React.Fragment>
-            <IconButton onClick={handleOpen} edge="end" aria-label="delete">
+            <IconButton onClick={handleOpen} edge='end' aria-label='delete'>
                 <DeleteIcon/>
             </IconButton>
             ️
-            <Modal
+            <StyledModal
+                aria-labelledby="unstyled-modal-title"
+                aria-describedby="unstyled-modal-description"
                 open={open}
                 onClose={handleClose}
+                BackdropComponent={Backdrop}
             >
                 {body}
-            </Modal>
+            </StyledModal>
         </React.Fragment>
     );
 }
