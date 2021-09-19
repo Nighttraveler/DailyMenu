@@ -1,7 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Container, Fab, Grid, MenuItem } from '@mui/material';
+import { Box, Button, Fab, Grid, MenuItem } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import ModalUnstyled from "@mui/core/ModalUnstyled";
 
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
@@ -41,49 +40,17 @@ const Root = styled('div')((
     }
 }));
 
-const StyledModal = styled(ModalUnstyled)`
-  position: fixed;
-  z-index: 1300;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
-    p: 2,
-    px: 4,
-    pb: 3,
+    boxShadow: 24,
+    p: 4,
+    textAlign: 'center'
 };
-
-const Backdrop = styled('div')`
-  z-index: -1;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  -webkit-tap-highlight-color: transparent;
-`;
-
-
-function getModalStyle() {
-    const top = 50;
-    const left = 50;
-
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
 
 
 const initialMenuState = {
@@ -94,7 +61,6 @@ const initialMenuState = {
 
 export default function AddMenu({ handleCreate }) {
 
-    const [modalStyle] = React.useState(getModalStyle);
     const [menu, setMenu] = useState(initialMenuState);
     const [open, setOpen] = React.useState(false);
     const [t] = useTranslation('common');
@@ -166,15 +132,14 @@ export default function AddMenu({ handleCreate }) {
                 <AddIcon/>
             </Fab>
             ️
-            <StyledModal
+            <Modal
                 aria-labelledby="unstyled-modal-title"
                 aria-describedby="unstyled-modal-description"
                 open={open}
                 onClose={handleClose}
-                BackdropComponent={Backdrop}
             >
                 {body}
-            </StyledModal>
+            </Modal>
         </Root>
     );
 }

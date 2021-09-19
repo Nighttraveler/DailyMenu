@@ -1,45 +1,20 @@
-import ModalUnstyled from "@mui/core/ModalUnstyled";
 import EditIcon from '@mui/icons-material/Edit'
-import { Box, Button, Grid, IconButton, MenuItem } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Button, Grid, IconButton, MenuItem, Modal } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MealTypesEnum } from '../../initData';
 
-
-const StyledModal = styled(ModalUnstyled)`
-  position: fixed;
-  z-index: 1300;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Backdrop = styled('div')`
-  z-index: -1;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  -webkit-tap-highlight-color: transparent;
-`;
-
 const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
-    p: 2,
-    px: 4,
-    pb: 3,
+    boxShadow: 24,
+    p: 4,
 };
-
 
 export default function EditMenu({ menu, handleUpdate }) {
 
@@ -113,15 +88,14 @@ export default function EditMenu({ menu, handleUpdate }) {
                 <EditIcon/>
             </IconButton>
             ️
-            <StyledModal
+            <Modal
                 aria-labelledby="unstyled-modal-title"
                 aria-describedby="unstyled-modal-description"
                 open={open}
                 onClose={handleClose}
-                BackdropComponent={Backdrop}
             >
                 {body}
-            </StyledModal>
+            </Modal>
         </React.Fragment>
     );
 }
