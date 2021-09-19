@@ -1,6 +1,8 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Button, Container, Fab, Grid, MenuItem } from '@mui/material';
+import { Box, Button, Container, Fab, Grid, MenuItem } from '@mui/material';
 import Modal from '@mui/material/Modal';
+import ModalUnstyled from "@mui/core/ModalUnstyled";
+
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import React, { useCallback, useState } from 'react';
@@ -38,6 +40,39 @@ const Root = styled('div')((
 
     }
 }));
+
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const style = {
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    p: 2,
+    px: 4,
+    pb: 3,
+};
+
+const Backdrop = styled('div')`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
+
 
 function getModalStyle() {
     const top = 50;
@@ -89,8 +124,7 @@ export default function AddMenu({ handleCreate }) {
     }, [menu, handleCreate]);
 
     const body = (
-        <Container align='center' maxWidth={'xl'} style={modalStyle}
-                   className={classes.paper}>
+        <Box sx={style}>
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={8}>
@@ -123,7 +157,7 @@ export default function AddMenu({ handleCreate }) {
                     </Grid>
                 </Grid>
             </form>
-        </Container>
+        </Box>
     );
 
     return (
@@ -132,12 +166,15 @@ export default function AddMenu({ handleCreate }) {
                 <AddIcon/>
             </Fab>
             ️
-            <Modal
+            <StyledModal
+                aria-labelledby="unstyled-modal-title"
+                aria-describedby="unstyled-modal-description"
                 open={open}
                 onClose={handleClose}
+                BackdropComponent={Backdrop}
             >
                 {body}
-            </Modal>
+            </StyledModal>
         </Root>
     );
 }
