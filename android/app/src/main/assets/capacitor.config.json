@@ -1,0 +1,6 @@
+{
+	"appId": "com.nighttraveler.dailymeal",
+	"appName": "daily-meal",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
