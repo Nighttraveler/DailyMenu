@@ -39,6 +39,9 @@
     "meals": {
       "lunch": "Almuerzo",
       "dinner": "Cena"
+    },
+    "form": {
+      "generate_button": "Generar menu"
     }
   }
 }

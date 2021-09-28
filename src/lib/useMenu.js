@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import initData from "../initData";
 
 
 const ACTIONS = {
@@ -32,7 +33,7 @@ const defaultReducer = (menuList, { type, payload }) => {
     }
 }
 
-export default function useMenu(initialMenuList, reducer = defaultReducer) {
+export default function useMenu(initialMenuList = initData.menuList, reducer = defaultReducer) {
     const [menuList, dispatch] = useReducer(reducer, initialMenuList);
 
     const handleCreate = (menu) => {

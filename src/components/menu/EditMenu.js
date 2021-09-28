@@ -14,6 +14,8 @@ const style = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
+    textAlign: 'center',
+    minWidth: '60%'
 };
 
 export default function EditMenu({ menu, handleUpdate }) {
