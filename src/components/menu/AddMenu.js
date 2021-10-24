@@ -100,6 +100,7 @@ export default function AddMenu({ handleCreate }) {
                                    onChange={handleMenuNameChange}
                                    multiline
                                    fullWidth={true}
+                                   required={true}
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -110,6 +111,7 @@ export default function AddMenu({ handleCreate }) {
                             value={menu.type}
                             onChange={handleMenuTypeChange}
                             fullWidth={true}
+                            required={true}
                         >
                             {Object.values(MealTypesEnum).map(value => (
                                 <MenuItem key={value} value={value}>

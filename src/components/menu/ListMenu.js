@@ -1,4 +1,5 @@
-import { ListItemSecondaryAction } from '@mui/material';
+import DeleteIcon from "@mui/icons-material/DeleteForeverRounded";
+import { IconButton, ListItemSecondaryAction, TextField } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -30,17 +31,52 @@ const Root = styled('div')((
 export default function ListMenu({ menuListProp, handleDelete, handleUpdate }) {
 
     const [menuList, setMenuList] = React.useState(menuListProp);
+    const [filterText, setFilterText] = React.useState("");
     const [t] = useTranslation('common');
 
     useEffect(() => {
-        console.log('menu list', menuListProp)
         setMenuList(menuListProp)
-    }, [menuListProp])
+        console.log("ListMenu useEffect")
+    }, [menuListProp]);
+
+    const handleFilterChange = (event) => {
+        console.log(event.target.value, "handleFilterChange")
+        setFilterText(event.target.value.toLowerCase());
+    }
+
+    const listToUse = () => {
+        if (filterText) {
+            return menuList.filter(menu => {
+                const menuName = menu.name.toLowerCase();
+                return menuName.includes(filterText)
+            });
+        }
+        return menuList;
+    }
 
     return (
         <Root className={classes.root}>
+
             <List component='ul'>
-                {menuList.map((menu) => {
+                <ListItem key={'filterText'} divider={true}>
+                    <TextField
+                        onChange={handleFilterChange}
+                        type={"text"}
+                        value={filterText}
+                        label={"filtra pa"}
+                        fullWidth={true}
+                        size={"medium"}
+
+                    />
+                    <ListItemSecondaryAction>
+                        <IconButton onClick={() => {
+                            setFilterText('')
+                        }} edge='end' aria-label='delete'>
+                            <DeleteIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+                {listToUse().map((menu) => {
                         return (
                             <ListItem key={menu.uuid} button divider={true}>
                                 <ListItemText primary={menu.name}

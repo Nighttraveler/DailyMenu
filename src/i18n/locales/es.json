@@ -41,7 +41,11 @@
       "dinner": "Cena"
     },
     "form": {
-      "generate_button": "Generar menu"
+      "generate_button": "Generar menu",
+      "save_button": "Guardar menu"
+    },
+    "snackbar": {
+      "text": "Menu guardardo exitosamente!"
     }
   }
 }

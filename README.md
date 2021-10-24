@@ -3,13 +3,22 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## TODO
-- [X] Setup react router in drawer
 - [ ] SearchBox in MenuManager
 - [ ] Configuration menu for user preferences (language, etc)
-- [ ] The menu generation components and logic
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm run build & npx cap sync && npx cap open android`
+
+Sync capacitor app:
+* When you want to copy web assets into your native project(s).
+* Before you run your project using a Native IDE.
+* After you install a new Capacitor plugin. 
+* After you clone your project.
+* When you want to setup or reconfigure the native project(s) for Capacitor.
+* When you want to install native dependencies (e.g. with Gradle or CocoaPods).
+
 
 ### `npm start`
 

@@ -58,6 +58,7 @@ export default function EditMenu({ menu, handleUpdate }) {
                                    onChange={handleMenuNameChange}
                                    multiline
                                    fullWidth={true}
+                                   required={true}
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -68,6 +69,7 @@ export default function EditMenu({ menu, handleUpdate }) {
                             value={menuState.type}
                             onChange={handleMenuTypeChange}
                             fullWidth={true}
+                            required={true}
                         >
                             {Object.values(MealTypesEnum).map(value => (
                                 <MenuItem key={value} value={value}>

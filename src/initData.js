@@ -21,6 +21,11 @@ let initData = {
         },
         {
             uuid: uuidv4(),
+            name: 'Milanesa de pescado',
+            type: MealTypesEnum.MAIN
+        },
+        {
+            uuid: uuidv4(),
             name: 'Pastel de papas',
             type: MealTypesEnum.MEAL
         },
@@ -42,6 +47,11 @@ let initData = {
         {
             uuid: uuidv4(),
             name: 'Milanesa de carne pollo',
+            type: MealTypesEnum.MAIN
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Hamburguesas',
             type: MealTypesEnum.MAIN
         },
         {
@@ -101,7 +111,32 @@ let initData = {
         },
         {
             uuid: uuidv4(),
+            name: 'Torrejas de acelga',
+            type: MealTypesEnum.SIDE
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Pechuga a la plancha',
+            type: MealTypesEnum.MAIN
+        },
+        {
+            uuid: uuidv4(),
             name: 'Fideos con tuco y carne picada',
+            type: MealTypesEnum.MEAL
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Ravioles de verdura con salsa fileto',
+            type: MealTypesEnum.MEAL
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Pizza',
+            type: MealTypesEnum.MEAL
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Lasaña de verdura',
             type: MealTypesEnum.MEAL
         },
         {
@@ -111,7 +146,32 @@ let initData = {
         },
         {
             uuid: uuidv4(),
+            name: 'Pure de papas',
+            type: MealTypesEnum.SIDE
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Pure de calabaza',
+            type: MealTypesEnum.SIDE
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Pollo',
+            type: MealTypesEnum.MAIN
+        },
+        {
+            uuid: uuidv4(),
             name: 'Crunchies de pollo',
+            type: MealTypesEnum.MAIN
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Churrascos',
+            type: MealTypesEnum.MAIN
+        },
+        {
+            uuid: uuidv4(),
+            name: 'Berenjena napolitanas',
             type: MealTypesEnum.MAIN
         },
         {

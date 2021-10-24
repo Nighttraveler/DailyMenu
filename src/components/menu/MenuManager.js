@@ -1,13 +1,17 @@
 import Container from '@mui/material/Container';
-import React from 'react';
-import initData from '../../initData'
-import useMenu from '../../lib/useMenu';
+import React, { useEffect } from 'react';
+import useMenuList from '../../lib/useMenuList';
 import AddMenu from './AddMenu';
 import ListMenu from './ListMenu';
 
 
 export default function MenuManager() {
-    const { menuList, handleCreate, handleDelete, handleUpdate } = useMenu(initData.menuList);
+    let { menuList, handleCreate, handleDelete, handleUpdate, handleRetrieve } = useMenuList([]);
+
+    useEffect(() => {
+        handleRetrieve()
+        console.log("MenuManager useEffect")
+    }, [])
 
     return (
         <Container maxWidth={'lg'}>

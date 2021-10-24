@@ -40,7 +40,11 @@
       "dinner": "Dinner"
     },
     "form": {
-      "generate_button": "Generate menu"
+      "generate_button": "Generate menu",
+      "save_button": "Save menu"
+    },
+    "snackbar": {
+      "text": "Menu successfully saved!"
     }
   }
 }
