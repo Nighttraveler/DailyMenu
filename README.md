@@ -1,10 +1,10 @@
 # Daily Menu
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## TODO
-- [ ] SearchBox in MenuManager
-- [ ] Configuration menu for user preferences (language, etc)
+- [ ] Configuration menu for user preferences (language, one food per day, etc)
+- [ ] Possibility to edit the generated menu
+- [ ] Possibility to create a menu from scratch
+- [X] SearchBox in MenuManager (needs to improve performance)
 ## Available Scripts
 
 In the project directory, you can run:
@@ -19,6 +19,11 @@ Sync capacitor app:
 * When you want to setup or reconfigure the native project(s) for Capacitor.
 * When you want to install native dependencies (e.g. with Gradle or CocoaPods).
 
+---
+
+###Create react app boilerplate
+
+---
 
 ### `npm start`
 

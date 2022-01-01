@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import { StorageService } from "../api/storageService";
+import { capacitorStorageService } from "../api/capacitorStorageService";
 import Home from './Home';
 import MenuManager from './menu/MenuManager';
 import Settings from './Settings';
@@ -31,7 +31,7 @@ function App(props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [t] = useTranslation('common');
 
-    StorageService.runStartUp();
+    capacitorStorageService.runStartUp();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);

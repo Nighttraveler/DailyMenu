@@ -10,14 +10,39 @@ const ACTIONS = {
     DELETE: 'delete',
 }
 
+const SORT_TYPES = {
+    ALPHABETICAL : 'A',
+    BY_TYPE : 'B'
+}
+
+const sortMenuList = (menuList, sortType) => {
+    if (sortType === SORT_TYPES.ALPHABETICAL) {
+        menuList.sort(function (a, b) {
+            const aName = a.name.toLowerCase();
+            const bName = b.name.toLowerCase();
+            if (aName< bName) {
+                return -1;
+            }
+            if (aName > bName) {
+                return 1;
+            }
+            return 0;
+        });
+    } else if (sortType === SORT_TYPES.BY_TYPE) {
+        //TODO
+    }
+}
+
 const defaultReducer = (menuList, { type, payload }) => {
     switch (type) {
         case ACTIONS.CREATE:
             const { menu: newMenu } = payload;
             menuList.push(newMenu);
+            sortMenuList(menuList, SORT_TYPES.ALPHABETICAL);
             return [...menuList];
         case ACTIONS.RETRIEVE:
             const { updatedMenuList } = payload;
+            sortMenuList(updatedMenuList, SORT_TYPES.ALPHABETICAL);
             return [...updatedMenuList]
         case ACTIONS.UPDATE:
             const { menu: menuToUpdate } = payload;
@@ -26,10 +51,13 @@ const defaultReducer = (menuList, { type, payload }) => {
                     menuList[index] = menuToUpdate;
                 }
             });
+            sortMenuList(menuList, SORT_TYPES.ALPHABETICAL);
             return [...menuList];
         case ACTIONS.DELETE:
             const { menu: menuToDelete } = payload;
-            return [...menuList.filter((item) => item.uuid !== menuToDelete.uuid)];
+            const updatedMenu = menuList.filter((item) => item.uuid !== menuToDelete.uuid);
+            sortMenuList(updatedMenu, SORT_TYPES.ALPHABETICAL);
+            return [...updatedMenu];
         default:
             throw new Error(`Unhandled action type: ${type}`);
     }
@@ -62,7 +90,7 @@ export default function useMenuList(initialMenuList = initData.menuList, reducer
         });
     }
     const handleRetrieve = () => {
-        StorageService.getMenuList().then(updatedMenuList => {
+        StorageService.retrieveMenuList().then(updatedMenuList => {
             if (updatedMenuList !== null) {
                 return dispatch({ type: ACTIONS.RETRIEVE, payload: { updatedMenuList } })
             } else {
@@ -70,7 +98,7 @@ export default function useMenuList(initialMenuList = initData.menuList, reducer
             }
         }).catch(reason => {
             alert(reason);
-            return dispatch({ type: ACTIONS.GET_LIST, payload: { updatedMenuList: initData.menuList } })
+            return dispatch({ type: ACTIONS.RETRIEVE, payload: { updatedMenuList: initData.menuList } })
         });
     }
     // handle other actions

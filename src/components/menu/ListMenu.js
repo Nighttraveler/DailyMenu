@@ -30,7 +30,7 @@ const Root = styled('div')((
 
 export default function ListMenu({ menuListProp, handleDelete, handleUpdate }) {
 
-    const [menuList, setMenuList] = React.useState(menuListProp);
+    const [menuList, setMenuList] = React.useState([]);
     const [filterText, setFilterText] = React.useState("");
     const [t] = useTranslation('common');
 
@@ -51,7 +51,7 @@ export default function ListMenu({ menuListProp, handleDelete, handleUpdate }) {
                 return menuName.includes(filterText)
             });
         }
-        return menuList;
+        return menuListProp;
     }
 
     return (

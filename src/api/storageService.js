@@ -1,34 +1,31 @@
-import { Storage } from '@capacitor/storage';
-import initData from "../initData";
+import { capacitorStorageService } from "./capacitorStorageService";
 
-export const KEYS = {
-    RUN_START_UP_KEY: 'runStartUp',
+export const MENU_KEYS = {
     MENU_LIST: 'menuList',
     GENERATED_MENU: 'generated_menu'
 }
 
-const runStartUp = async () => {
-    let { value } = await Storage.get({ key: KEYS.RUN_START_UP_KEY });
-    value = JSON.parse(value);
-    if (!value) {
-        await Storage.set({
-            key: KEYS.RUN_START_UP_KEY,
-            value: JSON.stringify(true)
-        });
-        await updateMenuList(initData.menuList);
-    }
-}
 
+/**
+ *
+ * @param newMenu a menu to be created
+ * @returns {Promise<*>} a promise with menu
+ */
 const createMenu = async (newMenu) => {
-    const menuList = await getMenuList();
+    const menuList = await retrieveMenuList();
     menuList.push(newMenu);
     return updateMenuList(menuList, newMenu).then(value => {
         return value;
     });
 }
 
+const retrieveMenu = async (menuUuid) => {
+    const menuList = await retrieveMenuList();
+    return menuList.find(menu => menu.uuid === menuUuid);
+};
+
 const updateMenu = async (menuToUpdate) => {
-    const menuList = await getMenuList();
+    const menuList = await retrieveMenuList();
     menuList.forEach((item, index) => {
         if (menuToUpdate.uuid === item.uuid) {
             menuList[index] = menuToUpdate;
@@ -39,47 +36,41 @@ const updateMenu = async (menuToUpdate) => {
 
 
 const deleteMenu = async (menuToDelete) => {
-    let menuList = await getMenuList();
+    let menuList = await retrieveMenuList();
     menuList = [...menuList.filter((item) => item.uuid !== menuToDelete.uuid)];
     return updateMenuList(menuList, menuToDelete).then(value => {
         return value;
     });
 };
 
-const retrieveMenu = async (menuUuid) => {
-    const menuList = await getMenuList();
-    return menuList.find(menu => menu.uuid === menuUuid);
-};
+////////////////////////////////////////////////
 
 const updateMenuList = async (menuList, menu) => {
-    return Storage.set({
-        key: KEYS.MENU_LIST,
-        value: JSON.stringify(menuList)
-    }).then(() => menu);
+    return capacitorStorageService.set(
+        MENU_KEYS.MENU_LIST,
+        menuList).then(() => menu);
 };
 
-const getMenuList = async () => {
-    const { value } = await Storage.get({
-        key: KEYS.MENU_LIST
-    })
-    return JSON.parse(value);
+const retrieveMenuList = async () => {
+    return await capacitorStorageService.get(MENU_KEYS.MENU_LIST);
 }
 
-const getGeneratedMenu = async () => {
-    const { value } = await Storage.get({ key: KEYS.GENERATED_MENU });
-    return JSON.parse(value);
+////////////////////////////////////////////////
+
+const retrieveGeneratedMenu = async () => {
+    return capacitorStorageService.get(MENU_KEYS.GENERATED_MENU);
 }
 
 const updateGeneratedMenu = async (generated_menu) => {
-    return Storage.set({
-        key: KEYS.GENERATED_MENU,
-        value: JSON.stringify(generated_menu)
-    }).then(() => generated_menu);
+    return capacitorStorageService.set(
+        MENU_KEYS.GENERATED_MENU,
+        generated_menu)
+        .then(() => generated_menu);
 }
 
+// TODO: this can be separated into MenuList, GeneratedMenu and Menu services
 export const StorageService = {
-    runStartUp,
-    getMenuList,
+    retrieveMenuList,
     updateMenuList,
     // individual menu
     createMenu,
@@ -87,6 +78,6 @@ export const StorageService = {
     deleteMenu,
     updateMenu,
     //generated menu
-    getGeneratedMenu,
+    retrieveGeneratedMenu,
     updateGeneratedMenu
 }

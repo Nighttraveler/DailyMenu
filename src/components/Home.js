@@ -16,37 +16,44 @@ export default function Home() {
         {
             title: t('home.days.monday'),
             lunch: null,
-            dinner: null
+            dinner: null,
+            unique: null
         },
         {
             title: t('home.days.tuesday'),
             lunch: null,
-            dinner: null
+            dinner: null,
+            unique: null
         },
         {
             title: t('home.days.wednesday'),
             lunch: null,
-            dinner: null
+            dinner: null,
+            unique: null
         },
         {
             title: t('home.days.thursday'),
             lunch: null,
-            dinner: null
+            dinner: null,
+            unique: null
         },
         {
             title: t('home.days.friday'),
             lunch: null,
-            dinner: null
+            dinner: null,
+            unique: null
         },
         {
             title: t('home.days.saturday'),
             lunch: null,
-            dinner: null
+            dinner: null,
+            unique: null
         },
         {
             title: t('home.days.sunday'),
             lunch: null,
-            dinner: null
+            dinner: null,
+            unique: null
         }
     ];
 
@@ -79,7 +86,7 @@ export default function Home() {
     );
 
     useEffect(() => {
-        StorageService.getGeneratedMenu().then(value => {
+        StorageService.retrieveGeneratedMenu().then(value => {
             if (value) {
                 setDays(value);
             }
@@ -137,16 +144,59 @@ export default function Home() {
     };
 
 
-    const generateFields = (menu) => {
+    const generateFields = (lunch, dinner, unique) => {
 
-        if (!menu) {
+        if (!lunch && !dinner && !unique) {
             return (
                 <div/>
             )
         }
-        const { menu: { meal } } = menu;
-        if (meal) {
-            /*           if (isEditMode) {
+
+        if (unique) {
+            const { menu: { meal } } = unique;
+            if (meal) {
+                return (
+                    <CardContent>
+                        <div>
+                            <p>{meal.name ? meal.name : ''}</p>
+                        </div>
+                    </CardContent>)
+
+            }
+            const { menu: { main } } = unique;
+            const { menu: { side } } = unique;
+            return (
+                <React.Fragment>
+                    <p>{main.name}</p>
+                    <p>{side.name}</p>
+                </React.Fragment>
+            )
+
+        }
+        const { menu: { meal: mealA } } = lunch;
+        const { menu: { meal: mealB } } = dinner;
+        return (
+        <CardContent>
+            <div>
+                <h3>{t('home.meals.lunch')}</h3>
+                {mealA ? <p>{mealA.name}</p> :
+                    <React.Fragment>
+                        <p>{lunch.menu.main.name}</p>
+                        <p>{lunch.menu.side.name}</p>
+                    </React.Fragment>}
+            </div>
+            <div>
+                <h3>{t('home.meals.dinner')}</h3>
+                {mealB ? <p>{mealB.name}</p> :
+                    <React.Fragment>
+                     <p>{dinner.menu.main.name}</p>
+                     <p>{dinner.menu.side.name}</p>
+                    </React.Fragment>}
+            </div>
+        </CardContent>
+        )
+/*        if (meal) {
+            /!*           if (isEditMode) {
                            let mainOptions = [];
                            let sideOptions = [];
                            menuList.forEach((m) => {
@@ -174,7 +224,7 @@ export default function Home() {
                                    />
                                </React.Fragment>
                            )
-                       } else {*/
+                       } else {*!/
             return (
                 <p>{meal.name ? meal.name : ''}</p>
 
@@ -184,7 +234,7 @@ export default function Home() {
         } else {
             const { menu: { main } } = menu;
             const { menu: { side } } = menu
-            /*            if (isEditMode) {
+            /!*            if (isEditMode) {
                             let mealOptions = [];
                             menuList.forEach((m) => {
                                 if (menu.type === m.type) {
@@ -200,14 +250,14 @@ export default function Home() {
                                     renderInput={(params) => <TextField {...params} label="Movie"/>}
                                 />
                             )
-                        } else {*/
+                        } else {*!/
             return (
                 <React.Fragment>
                     <p>{main.name}</p>
                     <p>{side.name}</p>
                 </React.Fragment>
             )
-        }
+        }*/
     }
 
 
@@ -236,7 +286,7 @@ export default function Home() {
             </Grid>
             <Grid container spacing={3} justifyContent={'center'}>
                 {days.map(
-                    ({ title, lunch, dinner }, index) => {
+                    ({ title, lunch, dinner , unique}, index) => {
                         return (
                             <Grid key={index} item xs={12} md={4}>
                                 <Card elevation={3} square>
@@ -247,17 +297,7 @@ export default function Home() {
                                              </IconButton>
                                          }*/
                                     />
-                                    <CardContent>
-                                        <div>
-                                            <h3>{t('home.meals.lunch')}</h3>
-                                            {generateFields(lunch)}
-                                        </div>
-                                        <div>
-                                            <h3>{t('home.meals.dinner')}</h3>
-                                            {generateFields(dinner)}
-                                        </div>
-
-                                    </CardContent>
+                                    {generateFields(lunch, dinner, unique)}
                                 </Card>
                             </Grid>
                         )
