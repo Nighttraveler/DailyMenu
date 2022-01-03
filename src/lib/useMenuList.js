@@ -11,8 +11,8 @@ const ACTIONS = {
 }
 
 const SORT_TYPES = {
-    ALPHABETICAL : 'A',
-    BY_TYPE : 'B'
+    ALPHABETICAL: 'A',
+    BY_TYPE: 'B'
 }
 
 const sortMenuList = (menuList, sortType) => {
@@ -20,7 +20,7 @@ const sortMenuList = (menuList, sortType) => {
         menuList.sort(function (a, b) {
             const aName = a.name.toLowerCase();
             const bName = b.name.toLowerCase();
-            if (aName< bName) {
+            if (aName < bName) {
                 return -1;
             }
             if (aName > bName) {
@@ -94,7 +94,8 @@ export default function useMenuList(initialMenuList = initData.menuList, reducer
             if (updatedMenuList !== null) {
                 return dispatch({ type: ACTIONS.RETRIEVE, payload: { updatedMenuList } })
             } else {
-                throw new Error('Please reload app');
+                updatedMenuList = [];
+                return dispatch({ type: ACTIONS.RETRIEVE, payload: { updatedMenuList } })
             }
         }).catch(reason => {
             alert(reason);

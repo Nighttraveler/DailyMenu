@@ -3,7 +3,9 @@
     "save": "Save",
     "edit": "Edit",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "delete_confirmation": "Are you sure you want to delete the menu {{menu}}?",
+    "search_box": "Filter by title"
   },
   "menu_form": {
     "title": "Menu title",
@@ -19,8 +21,11 @@
       "title": "Settings",
       "pick_language": {
         "en": "English",
-        "es": "Spanish"
-      }
+        "es": "Spanish",
+        "title": "Language"
+      },
+      "one_meal": "One menu per day",
+      "one_meal_warning": "Activating this option will erase the generated menu!"
     },
     "home": "Home",
     "manage": "Manage Menu"

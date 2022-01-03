@@ -179,7 +179,11 @@ let initData = {
             name: 'Tacos',
             type: MealTypesEnum.MEAL
         },
-    ]
+    ],
+    user_preferences: {
+        language: 'es',
+        one_meal: false
+    }
 };
 
 export default initData;

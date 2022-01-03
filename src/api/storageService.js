@@ -2,7 +2,8 @@ import { capacitorStorageService } from "./capacitorStorageService";
 
 export const MENU_KEYS = {
     MENU_LIST: 'menuList',
-    GENERATED_MENU: 'generated_menu'
+    GENERATED_MENU: 'generated_menu',
+    USER_PREFERENCES_LIST: 'user_preferences'
 }
 
 
@@ -12,7 +13,8 @@ export const MENU_KEYS = {
  * @returns {Promise<*>} a promise with menu
  */
 const createMenu = async (newMenu) => {
-    const menuList = await retrieveMenuList();
+    let menuList = await retrieveMenuList();
+    menuList = menuList ? menuList : []
     menuList.push(newMenu);
     return updateMenuList(menuList, newMenu).then(value => {
         return value;
@@ -55,6 +57,20 @@ const retrieveMenuList = async () => {
     return await capacitorStorageService.get(MENU_KEYS.MENU_LIST);
 }
 
+
+////////////////////////////////////////////////
+
+const updateUserPreference = async (key, value) => {
+    let user_preferences = await retrieveUserPreferences();
+    user_preferences[key] = value;
+    return capacitorStorageService.set(MENU_KEYS.USER_PREFERENCES_LIST, user_preferences)
+        .then(() => value);
+};
+
+const retrieveUserPreferences = async () => {
+    return await capacitorStorageService.get(MENU_KEYS.USER_PREFERENCES_LIST);
+}
+
 ////////////////////////////////////////////////
 
 const retrieveGeneratedMenu = async () => {
@@ -79,5 +95,8 @@ export const StorageService = {
     updateMenu,
     //generated menu
     retrieveGeneratedMenu,
-    updateGeneratedMenu
+    updateGeneratedMenu,
+    //user preferences
+    retrieveUserPreferences,
+    updateUserPreference
 }

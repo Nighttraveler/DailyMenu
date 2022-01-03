@@ -1,5 +1,6 @@
 import { Storage } from '@capacitor/storage';
 import initData from "../initData";
+import { MENU_KEYS } from "./storageService";
 
 export const INIT_KEYS = {
     RUN_START_UP_KEY: 'runStartUp',
@@ -9,11 +10,9 @@ const runStartUp = async () => {
     let { value } = await Storage.get({ key: INIT_KEYS.RUN_START_UP_KEY });
     value = JSON.parse(value);
     if (!value) {
-        await Storage.set({
-            key: 'runStartUp',
-            value: JSON.stringify(true)
-        });
-        await set('menuList', initData.menuList);
+        await set('runStartUp', true);
+        await set(MENU_KEYS.MENU_LIST, initData.menuList);
+        await set(MENU_KEYS.USER_PREFERENCES_LIST, initData.user_preferences);
     }
 }
 

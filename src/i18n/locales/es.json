@@ -4,7 +4,8 @@
     "edit": "Editar",
     "cancel": "Cancelar",
     "delete": "Borrar",
-    "delete_confirmation": "Seguro que desea borrar el menu {{menu}}?"
+    "delete_confirmation": "Seguro que desea borrar el menu {{menu}}?",
+    "search_box": "Filtrar por titulo"
   },
   "menu_form": {
     "title": "Titulo del menu",
@@ -20,8 +21,11 @@
       "title": "Configuracion",
       "pick_language": {
         "en": "Ingles",
-        "es": "Español"
-      }
+        "es": "Español",
+        "title": "Idioma"
+      },
+      "one_meal": "Unico menu por dia",
+      "one_meal_warning": "Activar esta opcion borrarra el menu generado!"
     },
     "home": "Home",
     "manage": "Administrar Menu"

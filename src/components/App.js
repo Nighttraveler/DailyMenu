@@ -14,10 +14,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import { capacitorStorageService } from "../api/capacitorStorageService";
+import { StorageService } from "../api/storageService";
+import i18n from "../i18n/i18n";
 import Home from './Home';
 import MenuManager from './menu/MenuManager';
 import Settings from './Settings';
@@ -31,7 +32,16 @@ function App(props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [t] = useTranslation('common');
 
-    capacitorStorageService.runStartUp();
+    //capacitorStorageService.runStartUp();
+
+    useEffect(() => {
+        StorageService.retrieveUserPreferences().then(
+            value => {
+                if (value) {
+                    i18n.changeLanguage(value.language);
+                }
+            });
+    }, [])
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);

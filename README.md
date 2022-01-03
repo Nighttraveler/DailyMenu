@@ -1,10 +1,10 @@
 # Daily Menu
 
 ## TODO
-- [ ] Configuration menu for user preferences (language, one food per day, etc)
+- [X] Configuration menu for user preferences (language, one food per day, etc)
 - [ ] Possibility to edit the generated menu
 - [ ] Possibility to create a menu from scratch
-- [X] SearchBox in MenuManager (needs to improve performance)
+- [X] SearchBox in MenuManager (needs to improve performance?)
 ## Available Scripts
 
 In the project directory, you can run:

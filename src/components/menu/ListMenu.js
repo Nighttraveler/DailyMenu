@@ -40,7 +40,6 @@ export default function ListMenu({ menuListProp, handleDelete, handleUpdate }) {
     }, [menuListProp]);
 
     const handleFilterChange = (event) => {
-        console.log(event.target.value, "handleFilterChange")
         setFilterText(event.target.value.toLowerCase());
     }
 
@@ -63,7 +62,7 @@ export default function ListMenu({ menuListProp, handleDelete, handleUpdate }) {
                         onChange={handleFilterChange}
                         type={"text"}
                         value={filterText}
-                        label={"filtra pa"}
+                        label={t('form.search_box')}
                         fullWidth={true}
                         size={"medium"}
 
