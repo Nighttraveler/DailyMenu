@@ -49,7 +49,7 @@
       "save_button": "Save menu"
     },
     "snackbar": {
-      "text": "Menu successfully saved!"
+      "save": "Menu successfully saved!"
     }
   }
 }

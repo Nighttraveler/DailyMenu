@@ -1,4 +1,4 @@
-import DeleteIcon from "@mui/icons-material/DeleteForeverRounded";
+import ClearIcon from '@mui/icons-material/Clear'
 import { IconButton, ListItemSecondaryAction, TextField } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -71,7 +71,7 @@ export default function ListMenu({ menuListProp, handleDelete, handleUpdate }) {
                         <IconButton onClick={() => {
                             setFilterText('')
                         }} edge='end' aria-label='delete'>
-                            <DeleteIcon/>
+                            <ClearIcon/>
                         </IconButton>
                     </ListItemSecondaryAction>
                 </ListItem>

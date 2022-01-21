@@ -1,10 +1,26 @@
 # Daily Menu
 
 ## TODO
-- [X] Configuration menu for user preferences (language, one food per day, etc)
-- [ ] Possibility to edit the generated menu
-- [ ] Possibility to create a menu from scratch
+- [ ] Make generate and save menu floating buttons
+- [X] Possibility to edit the generated menu
+- [X] Add a shuffle feature for each day
+- [ ] Possibility to create a menu from scratch (per day?)
+- [ ] Order menu list by type
+- [ ] First time welcome page & tutorial
+- [X] Create menu for user preferences (language, one food per day, etc)
+- [X] User preferences language
+- [X] User preferences one food per day
+- [ ] User preferences remove & recover default food list
 - [X] SearchBox in MenuManager (needs to improve performance?)
+- [X] Setup react router in drawer
+- [X] The menu generation components and logic
+
+# Code TODO
+- [ ] Refactor into more components when possible
+- [ ] Refactor into spread syntax and destructuring assignment when possible
+- [ ] Create a branch using TypeScript :)
+- [ ] Add UnitTest
+
 ## Available Scripts
 
 In the project directory, you can run:

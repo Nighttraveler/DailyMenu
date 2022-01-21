@@ -1,13 +1,18 @@
 import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit'
+import SaveIcon from '@mui/icons-material/Save'
+import SaveIcon2 from '@mui/icons-material/SaveAltOutlined'
+
 import ShuffleIcon from '@mui/icons-material/ShuffleRounded';
-import { Alert, Box, Button, Card, CardContent, CardHeader, Grid, IconButton, Snackbar } from '@mui/material';
+
+import { Alert, Box, Button, Card, CardContent, CardHeader, Grid, IconButton, Snackbar, } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { capacitorStorageService } from "../api/capacitorStorageService";
 import { StorageService } from "../api/storageService";
 import initData, { MealTypesEnum } from "../initData";
 import useMenuList from "../lib/useMenuList";
-
+import EditGeneratedMenu from './menu/GeneratedMenu/EditGeneratedMenu'
 
 export default function Home() {
 
@@ -63,9 +68,14 @@ export default function Home() {
     const { menuList, handleRetrieve } = useMenuList();
     const [days, setDays] = useState(initDays);
     const [oneMeal, setOneMeal] = useState(initData.user_preferences.one_meal);
-    const [canSaveGeneratedMenu, setCanSaveGeneratedMenu] = useState(true);
+    const [canGenerateMenu, setCanGenerateMenu] = useState(true);
+    const [canSaveGeneratedMenu, setCanSaveGeneratedMenu] = useState(false);
+    const [showCardMenu, setShowCardMenu] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);
-    //const [isEditMode, setIsEditMode] = React.useState(false);
+    const [editDay, setEditDay] = useState(Array(7).fill(false));
+    const [mealList, setMealList] = useState([]);
+    const [sideList, setSideList] = useState([]);
+    const [mainList, setMainList] = useState([]);
 
 
     const handleClose = (event, reason) => {
@@ -94,6 +104,7 @@ export default function Home() {
             StorageService.retrieveGeneratedMenu().then(value => {
                 if (value) {
                     setDays(value);
+                    setShowCardMenu(true);
                 }
             });
             StorageService.retrieveUserPreferences().then(value => {
@@ -103,13 +114,32 @@ export default function Home() {
             });
             handleRetrieve();
         })
+    }, [])  // eslint-disable-line react-hooks/exhaustive-deps
 
-    }, [])
+    useEffect(() => {
+        let tmpMealList = [];
+        let tmpMainList = [];
+        let tmpSideList = [];
+        menuList.forEach(value => {
+            if (value.type === MealTypesEnum.MEAL) {
+                tmpMealList.push({ label: value.name, menu: value });
+            } else if (value.type === MealTypesEnum.SIDE) {
+                tmpSideList.push({ label: value.name, menu: value })
+            } else if (value.type === MealTypesEnum.MAIN) {
+                tmpMainList.push({ label: value.name, menu: value })
+            }
+
+        });
+        setMealList(tmpMealList);
+        setMainList(tmpMainList);
+        setSideList(tmpSideList);
+
+    }, [menuList])
 
     const handleGenerateMenu = () => {
 
-        if (canGenerateMenu()) {
-            setCanSaveGeneratedMenu(false);
+        if (isPossibleToGenerateMenu()) {
+
             if (oneMeal) {
                 const nDays = days.map(({ unique, ...rest }) => {
                     return { unique: getMenu(), ...rest };
@@ -121,8 +151,11 @@ export default function Home() {
                 });
                 setDays(nDays);
             }
+            setCanSaveGeneratedMenu(true);
+            setShowCardMenu(true);
 
         } else {
+            //TODO
             console.log("metele mas comidas que no alcanza pa")
         }
 
@@ -130,11 +163,10 @@ export default function Home() {
     }
 
     const shuffleOneMenu = (index) => {
-        setCanSaveGeneratedMenu(false);
+        setCanSaveGeneratedMenu(true);
         if (oneMeal) {
             const nDays = days.map(({ unique, ...rest }, i) => {
                 if (i === index) {
-                    console.log("YES")
                     return { unique: getMenu(), ...rest };
                 }
                 return { unique, ...rest }
@@ -143,7 +175,6 @@ export default function Home() {
         } else {
             const nDays = days.map(({ lunch, dinner, ...rest }, i) => {
                 if (i === index) {
-                    console.log("YES")
                     return { lunch: getMenu(), dinner: getMenu(), ...rest };
                 }
                 return { lunch, dinner, ...rest }
@@ -152,7 +183,7 @@ export default function Home() {
         }
     }
 
-    const canGenerateMenu = () => {
+    const isPossibleToGenerateMenu = () => {
         let [containsMain, containsMeal, containsSide] = Array(3).fill(false);
         menuList.forEach(value => {
             if (value.type === MealTypesEnum.MEAL) {
@@ -172,15 +203,14 @@ export default function Home() {
         StorageService.updateGeneratedMenu(days).then(value => {
             setDays(value);
             setOpenSnackBar(true);
+            setCanSaveGeneratedMenu(false);
+            setCanGenerateMenu(true);
         });
     }
 
-    /*    const handleActivateEditMode = () => {
-            setIsEditMode(true)
-        }*/
-
     const handleGetRandomByType = (menuTypeToGet) => {
-        const randomIndex = Math.floor(Math.random() * menuList.length);
+        const randomIndex = Math.abs(Math.round(Math.random() * menuList.length - 1));
+        console.log(menuList.length, randomIndex)
         const m = menuList[randomIndex];
         if (m.type === menuTypeToGet) {
             return m;
@@ -190,7 +220,7 @@ export default function Home() {
     }
 
     const getMenu = () => {
-        const getMeal = Math.random() > 0.6;
+        const getMeal = Math.random() < 0.6;
         if (getMeal) {
             const meal = handleGetRandomByType(MealTypesEnum.MEAL);
             return {
@@ -209,6 +239,18 @@ export default function Home() {
         }
     };
 
+    const generateEditMenu = (index, mealList, mainList, sideList) => {
+        return (
+            <EditGeneratedMenu
+                indexProp={index}
+                generatedMenuProp={days}
+                setGeneratedMenuProp={setDays}
+                mealListProp={mealList}
+                mainListProp={mainList}
+                sideListProp={sideList}
+            />
+        )
+    }
 
     const generateFields = (lunch, dinner, unique) => {
 
@@ -221,18 +263,14 @@ export default function Home() {
         if (unique) {
             const { menu: { meal } } = unique;
             if (meal) {
-                return (
-                    <CardContent>
-                        <div>
-                            <p>{meal.name ? meal.name : ''}</p>
-                        </div>
-                    </CardContent>)
+                return (<div>
+                    <p>{meal.name ? meal.name : ''}</p>
+                </div>)
 
             }
             const { menu: { main } } = unique;
             const { menu: { side } } = unique;
-            return (
-                <React.Fragment>
+            return (<React.Fragment>
                     <p>{main.name}</p>
                     <p>{side.name}</p>
                 </React.Fragment>
@@ -242,7 +280,7 @@ export default function Home() {
         const { menu: { meal: mealA } } = lunch;
         const { menu: { meal: mealB } } = dinner;
         return (
-            <CardContent>
+            <React.Fragment>
                 <div>
                     <h3>{t('home.meals.lunch')}</h3>
                     {mealA ? <p>{mealA.name}</p> :
@@ -259,71 +297,8 @@ export default function Home() {
                             <p>{dinner.menu.side.name}</p>
                         </React.Fragment>}
                 </div>
-            </CardContent>
+            </React.Fragment>
         )
-        /*        if (meal) {
-                    /!*           if (isEditMode) {
-                                   let mainOptions = [];
-                                   let sideOptions = [];
-                                   menuList.forEach((m) => {
-                                       if (menuValue.main.type === m.type) {
-                                           mainOptions.push({ label: m.name, id: m.uuid });
-                                       } else if (menuValue.side.type === m.type) {
-                                           sideOptions.push({ label: m.name, id: m.uuid });
-                                       }
-                                   })
-                                   return (
-                                       <React.Fragment>
-                                           <Autocomplete
-                                               disablePortal
-                                               id="combo-box-demo"
-                                               options={mainOptions}
-                                               sx={{ width: 300 }}
-                                               renderInput={(params) => <TextField {...params} label="Movie"/>}
-                                           />
-                                           <Autocomplete
-                                               disablePortal
-                                               id="combo-box-demo"
-                                               options={sideOptions}
-                                               sx={{ width: 300 }}
-                                               renderInput={(params) => <TextField {...params} label="Movie"/>}
-                                           />
-                                       </React.Fragment>
-                                   )
-                               } else {*!/
-                    return (
-                        <p>{meal.name ? meal.name : ''}</p>
-
-                    )
-                    //}
-
-                } else {
-                    const { menu: { main } } = menu;
-                    const { menu: { side } } = menu
-                    /!*            if (isEditMode) {
-                                    let mealOptions = [];
-                                    menuList.forEach((m) => {
-                                        if (menu.type === m.type) {
-                                            mealOptions.push({ label: m.name, id: m.uuid });
-                                        }
-                                    })
-                                    return (
-                                        <Autocomplete
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            options={mealOptions}
-                                            sx={{ width: 300 }}
-                                            renderInput={(params) => <TextField {...params} label="Movie"/>}
-                                        />
-                                    )
-                                } else {*!/
-                    return (
-                        <React.Fragment>
-                            <p>{main.name}</p>
-                            <p>{side.name}</p>
-                        </React.Fragment>
-                    )
-                }*/
     }
 
 
@@ -335,20 +310,15 @@ export default function Home() {
             }} container>
                 <Button size={'large'} variant={"contained"}
                         onClick={handleGenerateMenu}
+                        disabled={!canGenerateMenu}
                 > <ShuffleIcon/> {t('home.form.generate_button')}
                 </Button>
                 <Button size={'large'} variant={"contained"}
                         onClick={handleSaveGeneratedMenu}
                         color={"success"}
-                        disabled={canSaveGeneratedMenu}
-                >{t('home.form.save_button')}
-                </Button>{/*
-                <Button size={'large'} variant={"contained"}
-                        onClick={handleActivateEditMode}
-                        color={"success"}
-                        disabled={canSaveGeneratedMenu}
-                >{'Edit mode'}
-                </Button>*/}
+                        disabled={!canSaveGeneratedMenu}
+                > <SaveIcon/> {t('home.form.save_button')}
+                </Button>
             </Grid>
             <Grid container spacing={3} justifyContent={'center'}>
                 {days.map(
@@ -357,15 +327,53 @@ export default function Home() {
                             <Grid key={index} item xs={12} md={4}>
                                 <Card elevation={3} square>
                                     <CardHeader title={t(title)}
-                                                action={
-                                                    <IconButton onClick={() => {
-                                                        shuffleOneMenu(index)
-                                                    }} aria-label='settings'>
-                                                        <ShuffleIcon/>
-                                                    </IconButton>
-                                                }
+                                                action={showCardMenu ?
+                                                    <React.Fragment>
+                                                        <span hidden={editDay[index]}>
+                                                            <IconButton
+                                                                onClick={() => {
+                                                                    shuffleOneMenu(index)
+                                                                }}
+                                                                aria-label='settings'>
+                                                                <ShuffleIcon/>
+                                                            </IconButton>
+                                                        </span>
+                                                        <span hidden={editDay[index]}>
+                                                            <IconButton
+                                                                onClick={() => {
+                                                                    let editDayCopy = editDay.slice();
+                                                                    editDayCopy[index] = !editDayCopy[index];
+                                                                    setEditDay(editDayCopy)
+                                                                    setCanGenerateMenu(false)
+                                                                    setCanSaveGeneratedMenu(true)
+                                                                }}>
+                                                                <EditIcon/>
+                                                            </IconButton>
+                                                        </span>
+                                                        <span hidden={!editDay[index]}>
+                                                            <IconButton
+                                                                color={"success"}
+                                                                onClick={() => {
+                                                                    let editDayCopy = editDay.slice();
+                                                                    editDayCopy[index] = !editDayCopy[index];
+                                                                    setEditDay(editDayCopy)
+                                                                    setCanGenerateMenu(true)
+                                                                }}
+                                                                hidden={true}
+                                                                aria-label='settings'>
+                                                                <SaveIcon2/>
+                                                            </IconButton>
+                                                        </span>
+                                                    </React.Fragment>
+                                                    : null}
                                     />
-                                    {generateFields(lunch, dinner, unique)}
+                                    <CardContent>
+                                        {editDay[index] ? generateEditMenu(index,
+                                                mealList,
+                                                mainList,
+                                                sideList)
+                                            : generateFields(lunch, dinner, unique)}
+                                    </CardContent>
                                 </Card>
                             </Grid>
                         )
@@ -379,7 +387,7 @@ export default function Home() {
                 action={action}
             >
                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                    {t('home.snackbar.text')}
+                    {t('home.snackbar.save')}
                 </Alert>
             </Snackbar>
         </Box>

@@ -27,7 +27,7 @@
       "one_meal": "Unico menu por dia",
       "one_meal_warning": "Activar esta opcion borrarra el menu generado!"
     },
-    "home": "Home",
+    "home": "Inicio",
     "manage": "Administrar Menu"
   },
   "home": {
@@ -49,7 +49,7 @@
       "save_button": "Guardar menu"
     },
     "snackbar": {
-      "text": "Menu guardardo exitosamente!"
+      "save": "Menu guardardo exitosamente!"
     }
   }
 }

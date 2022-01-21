@@ -11,7 +11,7 @@ export default function MenuManager() {
     useEffect(() => {
         handleRetrieve()
         console.log("MenuManager useEffect")
-    }, [])
+    }, [])  // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Container maxWidth={'lg'}>
