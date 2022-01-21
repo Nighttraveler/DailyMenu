@@ -4,6 +4,7 @@
 - [ ] Make generate and save menu floating buttons
 - [X] Possibility to edit the generated menu
 - [X] Add a shuffle feature for each day
+- [ ] Create Icons and splash screen
 - [ ] Possibility to create a menu from scratch (per day?)
 - [ ] Order menu list by type
 - [ ] First time welcome page & tutorial

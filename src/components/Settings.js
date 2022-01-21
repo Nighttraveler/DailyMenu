@@ -1,4 +1,4 @@
-import { FormLabel, Grid, RadioGroup, Tooltip } from "@mui/material";
+import { FormLabel, Grid, RadioGroup, TableFooter, Tooltip } from "@mui/material";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Radio from '@mui/material/Radio';
@@ -66,7 +66,12 @@ export default function Settings() {
                                       control={<Radio/>}
                                       label={t('drawer.settings.pick_language.en')}/>
                 </RadioGroup>
+
+                <a style={{marginTop:50 + 'px'}} href="https://www.flaticon.com/free-icons/plate" title="plate icons">Plate
+                    icon created by Freepik - Flaticon</a>
+                <a href="https://www.flaticon.com/free-icons/healthy-food" title="healthy food animated icons">Healthy food animated icons created by Freepik - Flaticon</a>
             </FormGroup>
+
         </Grid>
 
     )
