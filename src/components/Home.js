@@ -5,7 +5,7 @@ import SaveIcon2 from '@mui/icons-material/SaveAltOutlined'
 
 import ShuffleIcon from '@mui/icons-material/ShuffleRounded';
 
-import { Alert, Box, Button, Card, CardContent, CardHeader, Grid, IconButton, Snackbar, } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, CardHeader, Fab, Grid, IconButton, Snackbar, } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { capacitorStorageService } from "../api/capacitorStorageService";
@@ -76,6 +76,7 @@ export default function Home() {
     const [mealList, setMealList] = useState([]);
     const [sideList, setSideList] = useState([]);
     const [mainList, setMainList] = useState([]);
+    const [showFloatingButtons, setShowFloatingButtons] = useState(true);
 
 
     const handleClose = (event, reason) => {
@@ -110,6 +111,8 @@ export default function Home() {
             StorageService.retrieveUserPreferences().then(value => {
                 if (value) {
                     setOneMeal(value.one_meal);
+                    console.log('value.use_floating_buttons', value.use_floating_buttons)
+                    setShowFloatingButtons(value.use_floating_buttons)
                 }
             });
             handleRetrieve();
@@ -304,22 +307,32 @@ export default function Home() {
 
     return (
         <Box>
-            <Grid sx={{
-                justifyContent: 'center',
-                marginBottom: '2%'
-            }} container>
-                <Button size={'large'} variant={"contained"}
+            {!showFloatingButtons ?
+                <Grid sx={{
+                    justifyContent: 'center',
+                    marginBottom: '2%'
+                }} container>
+
+                    <Button
+                        size={'large'}
+                        variant={"contained"}
                         onClick={handleGenerateMenu}
                         disabled={!canGenerateMenu}
-                > <ShuffleIcon/> {t('home.form.generate_button')}
-                </Button>
-                <Button size={'large'} variant={"contained"}
+                    > <ShuffleIcon/> {t('home.form.generate_button')}
+                    </Button>
+                    <Button
+                        size={'large'}
+                        variant={"contained"}
                         onClick={handleSaveGeneratedMenu}
                         color={"success"}
                         disabled={!canSaveGeneratedMenu}
-                > <SaveIcon/> {t('home.form.save_button')}
-                </Button>
-            </Grid>
+                    > <SaveIcon/> {t('home.form.save_button')}
+                    </Button>
+
+                </Grid>
+                : null
+            }
+
             <Grid container spacing={3} justifyContent={'center'}>
                 {days.map(
                     ({ title, lunch, dinner, unique }, index) => {
@@ -390,6 +403,38 @@ export default function Home() {
                     {t('home.snackbar.save')}
                 </Alert>
             </Snackbar>
+            {showFloatingButtons ?
+                <React.Fragment>
+                    <Fab
+                        hidden={!showFloatingButtons}
+                        onClick={handleGenerateMenu}
+                        color={"primary"}
+                        disabled={!canGenerateMenu}
+                        sx={{
+                            position: 'fixed',
+                            bottom: '5px',
+                            right: '50%'
+                        }}
+                    >
+                        <ShuffleIcon/>
+                    </Fab>
+                    <Fab
+                        hidden={!showFloatingButtons}
+                        onClick={handleSaveGeneratedMenu}
+                        sx={{
+                            color: '#fff',
+                            backgroundColor: '#2e7d32',
+                            position: 'fixed',
+                            bottom: '5px',
+                            right: '30%',
+                            '&:hover': { backgroundColor: '#1b5e20' }
+                        }}
+                        disabled={!canSaveGeneratedMenu}>
+                        <SaveIcon/>
+                    </Fab>
+                </React.Fragment>
+                : null}
+
         </Box>
     )
 }

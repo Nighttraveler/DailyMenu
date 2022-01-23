@@ -182,7 +182,8 @@ let initData = {
     ],
     user_preferences: {
         language: 'es',
-        one_meal: false
+        one_meal: false,
+        use_floating_buttons: true
     }
 };
 

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">daily-meal</string>
-    <string name="title_activity_main">daily-meal</string>
+    <string name="title_activity_main">Daily Meal</string>
     <string name="package_name">com.nighttraveler.dailymeal</string>
     <string name="custom_url_scheme">com.nighttraveler.dailymeal</string>
 </resources>

@@ -25,7 +25,8 @@
         "title": "Idioma"
       },
       "one_meal": "Unico menu por dia",
-      "one_meal_warning": "Activar esta opcion borrarra el menu generado!"
+      "one_meal_warning": "Activar esta opcion borrarra el menu generado!",
+      "use_floating_buttons": "Usar botones flotantes en pantalla de de inicio"
     },
     "home": "Inicio",
     "manage": "Administrar Menu"

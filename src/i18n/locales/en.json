@@ -25,7 +25,8 @@
         "title": "Language"
       },
       "one_meal": "One menu per day",
-      "one_meal_warning": "Activating this option will erase the generated menu!"
+      "one_meal_warning": "Activating this option will erase the generated menu!",
+      "use_floating_buttons": "Use floating buttons at home screen"
     },
     "home": "Home",
     "manage": "Manage Menu"

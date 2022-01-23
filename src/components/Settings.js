@@ -1,4 +1,4 @@
-import { FormLabel, Grid, RadioGroup, TableFooter, Tooltip } from "@mui/material";
+import { FormLabel, Grid, RadioGroup, Tooltip } from "@mui/material";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Radio from '@mui/material/Radio';
@@ -12,6 +12,7 @@ export default function Settings() {
 
     let [language, setLanguage] = useState('es');
     let [oneMeal, setOneMeal] = useState(false);
+    let [useFloatingButtons, setUseFloatingButtons] = useState(true);
     let [t] = useTranslation('common');
 
     useEffect(() => {
@@ -19,6 +20,7 @@ export default function Settings() {
             value => {
                 setLanguage(value.language);
                 setOneMeal(value.one_meal)
+                setUseFloatingButtons(value.use_floating_buttons)
             });
     }, [language, oneMeal])
 
@@ -26,6 +28,11 @@ export default function Settings() {
         StorageService.updateUserPreference('one_meal', !oneMeal)
             .then(value => setOneMeal(value));
         StorageService.updateGeneratedMenu(null);
+    }
+
+    const handleUseFloatingButtonsChange = () => {
+        StorageService.updateUserPreference('use_floating_buttons', !useFloatingButtons)
+            .then(value => setUseFloatingButtons(value));
     }
 
     const handleLanguageChange = (e) => {
@@ -37,7 +44,7 @@ export default function Settings() {
     }
 
     return (
-        <Grid container={12} justifyContent="center">
+        <Grid container justifyContent="center">
 
             {/*            <h2>{t('menu_form.title')}</h2>
             <h2>use dark menu switch</h2>
@@ -51,6 +58,10 @@ export default function Settings() {
                         control={<Switch onChange={handleOneMealChange} checked={oneMeal}/>}
                         label={t('drawer.settings.one_meal')}/>
                 </Tooltip>
+
+                <FormControlLabel
+                    control={<Switch onChange={handleUseFloatingButtonsChange} checked={useFloatingButtons}/>}
+                    label={t('drawer.settings.use_floating_buttons')}/>
 
                 <FormLabel component="legend">{t('drawer.settings.pick_language.title')}</FormLabel>
                 <RadioGroup
@@ -67,9 +78,9 @@ export default function Settings() {
                                       label={t('drawer.settings.pick_language.en')}/>
                 </RadioGroup>
 
-                <a style={{marginTop:50 + 'px'}} href="https://www.flaticon.com/free-icons/plate" title="plate icons">Plate
+                <a style={{ marginTop: 50 + 'px' }} rel="noreferrer" target="_blank"
+                   href="https://www.flaticon.com/free-icons/plate" title="plate icons">Plate
                     icon created by Freepik - Flaticon</a>
-                <a href="https://www.flaticon.com/free-icons/healthy-food" title="healthy food animated icons">Healthy food animated icons created by Freepik - Flaticon</a>
             </FormGroup>
 
         </Grid>

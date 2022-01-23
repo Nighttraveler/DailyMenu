@@ -102,7 +102,7 @@ function App(props) {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant='h6' noWrap>
-                            Daily Menu
+                            Daily Meal
                         </Typography>
                     </Toolbar>
                 </AppBar>
